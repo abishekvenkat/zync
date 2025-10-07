@@ -5,18 +5,17 @@ import { TIMEZONES } from './types';
 import { Star } from 'lucide-react';
 
 function App() {
-  const [baseDateTime, setBaseDateTime] = useState<DateTime>(() =>
-    DateTime.now().setZone('Asia/Kolkata')
-  );
-
-  const referenceDate = baseDateTime.toISODate() || '';
+  // Keep today's date fixed
+  const today = DateTime.now().setZone('Asia/Kolkata');
+  const [baseDateTime, setBaseDateTime] = useState<DateTime>(() => today);
 
   const handleTimeChange = (iana: string, hours: number, minutes: number) => {
+    // Always use today's date when creating new DateTime
     const newDateTime = DateTime.fromObject(
       {
-        year: baseDateTime.year,
-        month: baseDateTime.month,
-        day: baseDateTime.day,
+        year: today.year,
+        month: today.month,
+        day: today.day,
         hour: hours,
         minute: minutes,
       },
@@ -40,7 +39,6 @@ function App() {
             key={tz.id}
             timezone={tz}
             dateTime={baseDateTime}
-            referenceDate={referenceDate}
             onTimeChange={handleTimeChange}
           />
         ))}

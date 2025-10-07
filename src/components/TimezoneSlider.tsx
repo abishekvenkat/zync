@@ -4,23 +4,16 @@ import type { Timezone } from '../types';
 interface TimezoneSliderProps {
   timezone: Timezone;
   dateTime: DateTime;
-  referenceDate: string;
   onTimeChange: (iana: string, hours: number, minutes: number) => void;
 }
 
-export function TimezoneSlider({ timezone, dateTime, referenceDate, onTimeChange }: TimezoneSliderProps) {
+export function TimezoneSlider({ timezone, dateTime, onTimeChange }: TimezoneSliderProps) {
   const localTime = dateTime.setZone(timezone.iana);
   const hours = localTime.hour;
   const minutes = localTime.minute;
 
   const roundedMinutes = Math.round(minutes / 30) * 30;
   const totalHalfHours = hours * 2 + (roundedMinutes / 30);
-
-  const referenceDT = DateTime.fromISO(referenceDate, { zone: 'Asia/Kolkata' });
-  const referenceDay = referenceDT.setZone('Asia/Kolkata').startOf('day');
-  const localDay = localTime.startOf('day');
-
-  const dayDiff = Math.round(localDay.diff(referenceDay, 'days').days);
 
   const formattedTime = localTime.toFormat('hh:mm a');
 
@@ -49,11 +42,6 @@ export function TimezoneSlider({ timezone, dateTime, referenceDate, onTimeChange
           aria-label={`${timezone.label} time slider`}
         />
       </div>
-      {dayDiff !== 0 && (
-        <div className="day-indicator">
-          {dayDiff > 0 ? `+${dayDiff}` : dayDiff}
-        </div>
-      )}
     </div>
   );
 }

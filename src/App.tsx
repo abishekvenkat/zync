@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="header">
-        <h1 className="app-title">zync</h1>
+        <h1 className="app-title">zynced</h1>
         <p className="app-date">{baseDateTime.toFormat('DDDD')}</p>
       </div>
 
